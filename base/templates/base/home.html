@@ -12,11 +12,12 @@
     <a href="{% url 'home' %}">All</a>
     {% for topic in topics %}
     <div>
-      <a href="{% url 'home' %}q={{topic.name}}">{{topic.name}}</a>
+      <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
     </div>
     {% endfor %}
   </div>
   <div>
+    <h6>{{room_count}} Rooms Available</h6>
     <a href="{% url 'create-room' %}">Create Room</a>
     <div>
       {% for room in rooms %}
