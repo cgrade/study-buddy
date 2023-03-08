@@ -7,8 +7,6 @@ from .models import Room, Topic
 from .forms import RoomForm
 
 
-
-
 # from django.http import HttpResponse
 
 # Create your views here.
@@ -31,7 +29,7 @@ def loginPage(request):
 
         user = authenticate(request, username=username, password=password)
 
-        if user is not None: 
+        if user is not None:
             login(request, user)
             return redirect('home')
         else:
@@ -41,8 +39,14 @@ def loginPage(request):
     return render(request, 'base/login_register.html', context)
 
 
+def logoutPage(request):
+
+    logout(request)
+    return redirect('home')
+
+
 def home(request):
- 
+
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     rooms = Room.objects.filter(
         Q(topic__name__icontains=q) |
