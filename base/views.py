@@ -7,10 +7,12 @@ from .models import Room, Topic
 from django.contrib.auth.decorators import login_required
 from .forms import RoomForm
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 
 
 def loginPage(request):
 
+    page = 'login'
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
@@ -30,7 +32,7 @@ def loginPage(request):
         else:
             messages.error(request, 'Username or Password not found')
             return redirect('login')
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 
@@ -38,6 +40,21 @@ def logoutPage(request):
 
     logout(request)
     return redirect('home')
+
+
+def registerPage(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            message.error(request, 'An error occurred during registrations')
+    return render(request, 'base/login_register.html', {'form': form})
 
 
 def home(request):
