@@ -1,1 +1,2 @@
-# Hello this is just a readme
+# Study Buddy
+## this readme will be updated before launch.
