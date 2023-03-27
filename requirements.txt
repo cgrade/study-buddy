@@ -1,6 +1,7 @@
 asgiref==3.6.0
 backports.zoneinfo==0.2.1
 Django==4.1.7
+django-test==0.4030
 djangorestframework==3.14.0
 pytz==2023.2
 sqlparse==0.4.3
