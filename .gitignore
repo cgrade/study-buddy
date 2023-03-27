@@ -1,3 +1,4 @@
 
 studybud/setting.py
 *.sqlite3
+*.env
