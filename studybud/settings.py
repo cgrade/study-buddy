@@ -10,12 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import django_heroku
+#import django_heroku
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from django.core.management.utils import get_random_secret_key
+
+# ...
+
+SECRET_KEY = get_random_secret_key()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -24,9 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'django-insecure-sx1+-*i40!=6ti3z#i6)9gx4m5si7o8l#3$osb@u+9ryrjl_ti'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,8 +86,13 @@ WSGI_APPLICATION = 'studybud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': os.environ.get("DATABASE_URL"),
+        'NAME': os.environ.get("PGDATABASE"),
+        'USER': os.environ.get("PGUSER"),
+        'PASSWORD': os.environ.get("PGPASSWORD"),
+        'HOST': os.environ.get("PGHOST"),
+        'PORT': os.environ.get("PGPORT"),
     }
 }
 
@@ -119,11 +131,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATICFILES_DIRS = [ BASE_DIR / 'static',]
+
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+
+STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -131,4 +144,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configure Django App for Heroku.
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
